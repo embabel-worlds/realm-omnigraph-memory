@@ -1,0 +1,4 @@
+.DS_Store
+omnigraph/__cluster/
+omnigraph/memory/
+omnigraph/*.log

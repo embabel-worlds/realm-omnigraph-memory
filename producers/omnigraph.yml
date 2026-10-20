@@ -1,0 +1,20 @@
+# Recall over the Omnigraph `memory` graph: its stored `recall` query ranks ACTIVE Memory nodes by
+# BM25 against the anchor's text. A `remote-search` producer — the store searches itself; nothing is
+# ingested — with the graph's own relevance carried onto the edge as r.score (`recordScoreField`).
+#
+# The gateway op is the vendored OpenAPI operation `cluster_invoke_query`
+# (POST /graphs/{graph_id}/queries/{name}); path parameters and the request body's fields are one
+# flat argument map, and `{query}` is substituted with the anchor's text wherever it sits.
+- name: omnigraphRecall
+  kind: remote-search
+  operation: cluster_invoke_query
+  args:
+    graph_id: memory
+    name: recall
+    params:
+      q: "{query}"
+  records: "$.rows[*]"
+  idField: id
+  recordScoreField: score
+  k: 8
+  minScore: 0.0

@@ -1,0 +1,14 @@
+query recall($q: String) {
+  match { $m: Memory { status: "ACTIVE" } }
+  return {
+    $m.mid as id,
+    $m.text as text,
+    $m.confidence as confidence,
+    $m.status as status,
+    $m.created as created,
+    $m.source as source,
+    bm25($m.text, $q) as score
+  }
+  order { bm25($m.text, $q) desc }
+  limit 10
+}

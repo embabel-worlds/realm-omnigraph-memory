@@ -1,0 +1,10 @@
+version: 1
+metadata:
+  name: memory-provider
+state:
+  backend: cluster
+  lock: true
+graphs:
+  memory:
+    schema: memory.pg
+    queries: [queries.gq]

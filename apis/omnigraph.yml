@@ -1,0 +1,11 @@
+# The Omnigraph HTTP API, vendored from the server's own GET /openapi.json with a `servers`
+# entry added (the served document carries none). Every protected Omnigraph request must carry
+# exactly one `Omnigraph-Http-Api: 0.13` header, which is why it is declared here rather than
+# per call. The dev server runs `--unauthenticated`; a deployed one takes `auth: bearer`.
+- url: omnigraph-openapi.json
+  name: omnigraph
+  type: openapi
+  auth: none
+  headers:
+    Omnigraph-Http-Api: "0.13"
+  operation-ids: [cluster_invoke_query, cluster_query]

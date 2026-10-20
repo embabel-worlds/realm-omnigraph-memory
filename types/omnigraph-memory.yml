@@ -1,0 +1,23 @@
+# A second memory system under the world's shared `Memory` label (default-world types/memory.yml).
+# Every OmnigraphMemory node carries :Memory too, so
+#   MATCH (:Concept {value:'coffee'})-[r:RELEVANT_TO]->(m:Memory)   -- dice AND omnigraph
+#   MATCH (:Concept {value:'coffee'})-[r:RELEVANT_TO]->(m:OmnigraphMemory)   -- omnigraph alone
+# The data contract is Memory's: id, text, confidence, status, created, source — projected
+# straight from the graph's stored `recall` query, which already returns ACTIVE facts only.
+- name: OmnigraphMemory
+  parents: [Memory]
+  visibility: internal
+  userAnchor: false
+  description: "A fact held in the Omnigraph memory graph — one of the memory systems behind :Memory. Reach it from a free-text Concept via RELEVANT_TO (BM25 over the fact text, scored by the graph), or name :OmnigraphMemory to read only this system. Per-match data on the EDGE: r.score (the graph's BM25 relevance), r.mode, r.rank."
+  virtualJoins:
+    - anchorLabel: Concept
+      relationship: RELEVANT_TO
+      keyField: value
+      recordKeyField: matchedFor
+      producer: omnigraphRecall
+      description: "LEXICAL relevance of an Omnigraph memory to a FREE-TEXT topic, ranked by the graph's own BM25 — \"what does Omnigraph remember about X\". Seeded from a query literal, e.g. (:Concept {value:'coffee'})-[:RELEVANT_TO]->(:OmnigraphMemory). Per-match data on the EDGE: r.score, r.mode, r.rank."
+  properties:
+    id:
+      description: "The memory's id in Omnigraph — the node identity."
+      metadata:
+        identity: "true"

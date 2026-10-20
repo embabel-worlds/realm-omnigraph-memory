@@ -1,0 +1,8 @@
+node Memory {
+  mid: String @key
+  text: String @index
+  confidence: F64
+  status: String
+  created: String
+  source: String
+}

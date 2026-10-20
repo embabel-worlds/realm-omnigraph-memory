@@ -1,0 +1,10 @@
+name: omnigraph-memory
+description: >-
+  A second memory system under the shared Memory label: facts held in an Omnigraph graph,
+  recalled by BM25 over the graph's own stored query, so "what do you remember about X"
+  answers from the assistant's memory and from Omnigraph in one query.
+version: 0.1.0
+# The provenance label every node this realm owns carries beside its type: :OmnigraphMemory:Memory:Omnigraph.
+realmLabel: Omnigraph
+author: Embabel
+tags: [memory, omnigraph]

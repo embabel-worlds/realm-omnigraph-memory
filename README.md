@@ -28,6 +28,20 @@ returns ACTIVE memories ordered by `bm25($m.text, $q)` with the score projected 
 into the gateway operation. Point `servers[0].url` at your server. The dev bundle runs
 `omnigraph-server --unauthenticated`; a deployed one needs `auth: bearer` in `apis/omnigraph.yml`.
 
+## The ladder
+
+The shared label is a migration path, and this realm is one rung of it.
+
+- **Mirror** — install the realm and point `servers[0].url` at your Omnigraph; its facts answer
+  under `:Memory` beside the assistant's own from the next query.
+- **Compare** — `memory_bakeoff {topic}` lists what each system recalls, one row per memory with
+  `system` naming it; `memory_systems` counts per system.
+- **Promote** — `gateway.memory.promote({text, source, id})` copies a fact into the assistant's own
+  memory; the row then reads `status: PROMOTED` and leaves plain `:Memory` reads.
+- **Retire** — uninstall the realm; every `:Memory` query keeps answering from the systems that remain.
+
+`source` and `status` are both columns of the stored `recall` query, projected straight onto the node.
+
 ## Contract
 
 See `VIRTUAL_CYPHER.md` §6.8 in realm-spec: the `Memory` data contract (`id`, `text`,
